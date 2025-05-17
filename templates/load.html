@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>DropSend – Datei-Upload</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      background-color: #1a1a1a99;
+      padding: 20px 30px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      box-shadow: 0 0 20px #00c3ff66;
+    }
+
+    .code-input-container {
+      background-color: #1e1e1e;
+      border: 1px solid #00c3ff44;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 0 20px #00c3ff33;
+      text-align: center;
+      margin-bottom: 30px; /* Abstand nach unten für den Downloadbereich */
+    }
+
+    input[type="text"] {
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #00c3ff;
+      width: 150px;
+      text-align: center;
+      margin-right: 10px;
+      background-color: #292929;
+      color: #fff;
+      outline: none;
+    }
+
+    button {
+      background: #00c3ff;
+      border: none;
+      color: #000;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:disabled {
+      background: #005f7f;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #0099cc;
+    }
+
+    .error-message {
+      color: #ff5555;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .download-link {
+      margin-top: 16px;
+      display: none;
+      max-width: 400px;
+      width: 100%;
+      background-color: #1e1e1e;
+      border: 1px solid #00c3ff44;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 20px #00c3ff33;
+      text-align: center;
+    }
+
+    .download-link ul {
+      list-style: none; /* Keine Punkte bei der Liste */
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .download-link li {
+      margin: 10px 0; /* Abstand zwischen den einzelnen Listenelementen */
+    }
+
+    .download-link a {
+      color: #00c3ff;
+      font-size: 1rem;
+      text-decoration: none;
+      border: 1px solid #00c3ff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: inline-block;
+      transition: background-color 0.3s;
+    }
+
+    .download-link a:hover {
+      background-color: #00c3ff22;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>DropSend - Download your files and images</h1>
+
+  <div class="code-input-container">
+    <label for="codeInput">Please input the 6-digit code:</label><br /><br />
+    <input
+      type="text"
+      id="codeInput"
+      aria-label="6-digit code"
+      maxlength="6"
+      placeholder="123456"
+      inputmode="numeric"
+      pattern="[0-9]*"
+    />
+    <button id="checkCodeBtn" disabled>Check code</button>
+    <div class="error-message" id="errorMessage"></div>
+  </div>
+
+  <div class="download-link" id="downloadLink" style="display: none;">
+    <!-- Dynamische Liste wird hier eingefügt -->
+  </div>
+
+<script>
+  const input = document.getElementById("codeInput");
+  const button = document.getElementById("checkCodeBtn");
+  const errorMessage = document.getElementById("errorMessage");
+  const downloadLink = document.getElementById("downloadLink");
+
+  // Nur Zahlen erlauben und Button nur aktivieren, wenn 6 Zeichen eingegeben sind
+  input.addEventListener("input", () => {
+    input.value = input.value.replace(/[^0-9]/g, "");
+    button.disabled = input.value.length !== 6;
+  });
+
+  button.addEventListener("click", () => {
+    const enteredCode = input.value.trim();
+
+    fetch("/check_code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: enteredCode }),
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Unbekannter Fehler");
+        return data;
+      })
+      .then((data) => {
+        if (data.success) {
+          errorMessage.textContent = "";
+
+          // Liste dynamisch erstellen
+          const ul = document.createElement("ul");
+          data.files.forEach(file => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = `/download/${data.folder}/${file}`;
+            a.textContent = file;
+            a.setAttribute("download", file);
+            li.appendChild(a);
+            ul.appendChild(li);
+          });
+
+          // Bisherige Inhalte löschen & neue hinzufügen
+          downloadLink.innerHTML = "";
+          downloadLink.appendChild(ul);
+          downloadLink.style.display = "block";
+
+        } else {
+          downloadLink.style.display = "none";
+          errorMessage.textContent = data.error || "Ungültiger Code.";
+        }
+      })
+      .catch((err) => {
+        downloadLink.style.display = "none";
+        errorMessage.textContent = err.message || "Serverfehler! Bitte später erneut versuchen.";
+      });
+  });
+
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !button.disabled) {
+      button.click();
+    }
+  });
+</script>
+
+</body>
+</html>
