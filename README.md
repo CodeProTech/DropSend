@@ -1,4 +1,4 @@
-Drop Send
+# Drop Send
 
 Drop Send is a simple and fast file transfer application that allows users to send files securely between devices or to share them with others. With its easy-to-use interface and strong encryption, Drop Send is designed to make file sharing faster and safer.
 Features
@@ -16,6 +16,7 @@ Features
     Notifications: Get real-time notifications when a file transfer is complete.
 
 Installation
+
 Requirements
 
     Python 3.x
