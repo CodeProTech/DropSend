@@ -1,86 +1,120 @@
-# Drop Send
+# DropSend
 
-Drop Send is a simple and fast file transfer application that allows users to send files securely between devices or to share them with others. With its easy-to-use interface and strong encryption, Drop Send is designed to make file sharing faster and safer.
-Features
+📡 DropSend – Dateien und Texte schnell und einfach über dein lokales Netzwerk senden.
 
-    Fast File Transfer: Send files between devices in seconds, regardless of size.
+Mit DropSend kannst du Dateien, Texte oder Bilder zwischen allen Geräten übertragen, die sich im **selben WLAN oder LAN** befinden – ganz ohne Internet oder Cloud! Öffne einfach den Link im Browser und schon kannst du Dateien austauschen.
 
-    Secure Encryption: All files are transferred using secure encryption to protect your privacy.
+---
 
-    Cross-Platform: Compatible with multiple platforms (Windows, macOS, Linux).
+## 🚀 Features
 
-    Drag-and-Drop Interface: Easily select files to send using the drag-and-drop feature.
+- 🌐 Geräteverbindung über das lokale Netzwerk (WLAN/LAN)
+- 🔒 Keine Datenübertragung übers Internet – 100 % lokal
+- 📁 Unterstützt alle Dateiarten (PDF, Bilder, ZIPs usw.)
+- 📲 Kompatibel mit Smartphone, Tablet, PC, Mac usw.
+- 🖼️ Drag & Drop Upload
+- 📤 Dateien von jedem Gerät im gleichen WLAN hochladen
+- 📥 Alle hochgeladenen Dateien sofort im Browser herunterladen
+- 🔐 Zugriff nur über 6-stelligen Sicherheitscode
+- 📦 QR-Codes für Upload- & Download-Links
+- ❌ Unterstützt auch Löschen hochgeladener Dateien
 
-    No Signup Required: Start sending files instantly without needing to sign up or log in.
+---
 
-    Notifications: Get real-time notifications when a file transfer is complete.
+## 🖥️ Kompatibilität
 
-Installation
+Funktioniert auf **allen Geräten** mit einem Webbrowser:
 
-Requirements
+| Gerät | Unterstützt |
+|------|-------------|
+| Windows-PC | ✅
+| Mac | ✅
+| Linux | ✅
+| iPhone/iPad | ✅
+| Android | ✅
+| Smart TVs (mit Browser) | ⚠️ teilweise 
 
-    Python 3.x
+Alle Geräte müssen im **selben lokalen Netzwerk** sein (z. B. über WLAN verbunden).
 
-    Flask (for web interface)
+---
 
-    Other dependencies: pip install -r requirements.txt (includes libraries like requests, pycryptodome for encryption, etc.)
+## 🧩 Installation
 
-Steps to Install
+### 1. Voraussetzungen
 
-    Clone this repository:
+- Python 3.8+
+- Pip-Pakete: `flask`, `qrcode`
 
-git clone https://github.com/yourusername/dropsend.git
-cd dropsend
+### 2. Installation
 
-Create a virtual environment (optional, but recommended):
-
-python3 -m venv .venv
-
-Install the required dependencies:
-
+```bash
+git clone https://github.com/CodeProTech/DropSend
+```
+```bash
+cd DropSend
+```
+```bash
 pip install -r requirements.txt
+```
+```bash
+pip install flask, qrcode
+```
 
-Run the application:
+### 3. Anwendung
 
-    python app.py
+```bash
+python main.py
+```
+✅ Ein Browserfenster öffnet sich automatisch mit deinem privaten Upload-Link.
 
-    This will start a local server, and you can open your browser to http://127.0.0.1:5000 to use the app.
+---
 
-Usage
+## (emojie )Anwendung 
+### Sende von PC
+1. Vergewissere dich, dass dein Gerät im selben WLAN ist wie dein PC.
+2. Lade eine oder mehrere datein hoch durch browse oder drag and drop
+3. Scane nun den qrcode oder gib den link auf deinem anderen gerät ein (link bsp. `http://192.168.178.45:5000/abc123xyz`)
+4. Gib den 6-Stelligen code der auf deinem pc angezeigt wird ein
 
-    Open the app in your browser.
+✅ Lade nun deine hochgeladenen datein auf deinem anderen geräd runter
 
-    Drag and drop the file(s) you want to send into the designated area.
+### Sende von einem anderen Gerät
+1. Vergewissere dich, dass dein Gerät im selben WLAN ist wie dein PC.
+2. Öffne den link mit dem text "transfer files and photos from another device"
+3. Scane nun den qrcode oder gib den link auf deinem anderen gerät ein (link bsp. `http://192.168.178.45:5000/abc123xyz`)
+4. Lade eine oder mehrere datein hoch durch browse oder drag and drop
+5. Scane nun den qrcode oder gib den link auf deinem anderen gerät ein (link bsp. `http://192.168.178.45:5000/abc123xyz`)
+6. Gib den 6-Stelligen code der auf deinem pc angezeigt wird ein
 
-    Enter the recipient’s email or device ID (if required), and hit Send.
+✅ Lade nun deine hochgeladenen datein auf deinem anderen geräd runter
 
-    The recipient will receive a link to download the file.
+---
 
-    Optionally, you can set an expiration time for the file link.
+## ⚠️ Sicherheit & Hinweise
 
-Contributing
+- DropSend ist nicht über das Internet erreichbar – nur im lokalen Netzwerk.
+- Die Links sind mit zufälligen Codes geschützt (z. B. abc123xyz).
+- Der Upload-Ordner wird beim Start automatisch gelöscht.
 
-We welcome contributions to Drop Send! If you'd like to improve the project, please fork the repository and submit a pull request.
-How to Contribute:
+---
 
-    Fork the repository on GitHub.
+## ✅ Todo & Ideen für die Zukunft
+- ABlaufszeit der links
+- noch sicherer
+- direktes schicken der datein zu geräten im  netwerk
+---
 
-    Create a new branch for your changes.
+## 👨‍💻 Autor
+Stefanos Koufogazos Loukianov
 
-    Make your changes and commit them.
+---
 
-    Push your changes to your forked repository.
+## Kontakt
+Email: [stefanoskoufogazos@outlook.com](stefanoskoufogazos@outlook.com)
 
-    Open a pull request.
 
-Please ensure your changes adhere to the project's coding standards and include tests where applicable.
-License
+---
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-Contact
+## 📝 Lizenz
 
-For any questions or suggestions, please feel free to reach out to us at:
-
-    Email: contact@dropsend.com
-
-    GitHub: https://github.com/yourusername/dropsend
+MIT License – kostenlos nutzbar, auch kommerziell.
