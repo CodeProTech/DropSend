@@ -6,10 +6,18 @@ import socket
 import string
 from pathlib import Path
 import webbrowser
+import re
 
 from flask import Flask, render_template, jsonify, request, abort, send_from_directory
 from werkzeug.utils import secure_filename
 import qrcode
+
+# Function to sanitize filenames by replacing any characters that could cause issues in URLs or filesystems
+# with underscores (_). This ensures the filename is safe to use in download URLs and file storage.
+def sanitize_filename(filename):
+    # Use regex to replace all characters except letters, digits, dots, underscores, and hyphens
+    sanitized = re.sub(r'[^A-Za-z0-9._-]', '_', filename)
+    return sanitized
 
 # Function to generate a secure random string of given length for download URLs.
 # Uses letters (uppercase and lowercase) and digits.
@@ -102,7 +110,7 @@ def index():
     return render_template("upload.html", code=code, link=link_download, link_another_device=link_another_device)
 
 # Route for loading files from another device.
-# Renders a page with links to download or upload from other devices.---------------------------------------------------------------
+# Renders a page with links to download or upload from other devices.
 @app.route(f"/{ungurl_upload}/from_another_device")
 def from_another_device():
     return render_template("load_from_other.html", link_download=link_download, link_upload=link_upload)
@@ -141,20 +149,21 @@ def check_code():
 # Route to display the files available for download in the specific upload folder.
 @app.route("/download/<ungurl_upload>")
 def load(ungurl_upload):
-    safe_folder = secure_filename(ungurl_upload)  # sanitize input for security
+    safe_folder = secure_filename(ungurl_upload)  # Foldername absichern
     folder_path = os.path.join(os.getcwd(), 'uploads', safe_folder)
 
     if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
-        abort(404)  # Folder not found, send HTTP 404
+        abort(404)
 
     files = os.listdir(folder_path)
-    return render_template('load.html', files=files, folder=safe_folder)
+    safe_files = [sanitize_filename(f) for f in files]  # Bereinigte Dateinamen für Links
+    return render_template('load.html', files=safe_files, folder=safe_folder)
 
-# Route to download a specific file from the upload folder.
+
 @app.route('/download/<ungurl_upload>/<filename>')
 def download(ungurl_upload, filename):
     safe_folder = secure_filename(ungurl_upload)
-    safe_filename = secure_filename(filename)
+    safe_filename = sanitize_filename(filename)  # Hier sanitize statt secure_filename
     folder_path = os.path.join(os.getcwd(), 'uploads', safe_folder)
 
     if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
@@ -164,31 +173,23 @@ def download(ungurl_upload, filename):
     if not os.path.exists(file_path):
         abort(404)
 
-    # Send the file as an attachment so the browser downloads it.
     return send_from_directory(folder_path, safe_filename, as_attachment=True)
 
-# Route to handle file uploads via POST request.
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        # Return error if no file part in the request
         return jsonify({'error': 'No file found'}), 400
 
     file = request.files['file']
-    filename = file.filename
+    filename = sanitize_filename(file.filename)  # sanitize hier!
 
     if filename == '':
-        # Return error if no file selected by user
         return jsonify({'error': 'No file selected'}), 400
 
-    # Make sure upload folder exists before saving the file
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-    # Save uploaded file to disk
     file.save(filepath)
-
     return jsonify({'message': 'File uploaded successfully', 'filename': filename}), 200
 
 # Route to delete a file from the upload folder.
@@ -207,4 +208,5 @@ def delete_file():
 
 # Main entry point: run Flask server on all interfaces at port 5000
 if __name__ == '__main__':
+    webbrowser.open(link_upload)
     app.run(host='0.0.0.0', port=5000)

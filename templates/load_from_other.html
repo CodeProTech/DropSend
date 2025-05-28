@@ -2,24 +2,36 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
+  <!-- Responsive settings for mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>DropSend – Datei-Upload</title>
+  <!-- Link to the CSS stylesheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <!-- Main page heading -->
   <h1>DropSend – Upload files and images from another device</h1>
 
+  <!-- Container for the QR code and instructions -->
   <div class="qr-code-container-styled">
     <div class="qr-box">
+      <!-- QR code image to scan -->
       <img src="../static/qr-code/upload/qrcode.png" alt="Failed to load QR code." class="qr-image" />
 
+      <!-- Information and links related to the QR code -->
       <div class="qr-info">
+        <!-- Instruction to scan QR or enter link manually -->
         <p class="qr-text">1. Scan the QR code using your device,<br>or manually enter the following link:</p>
+        <!-- Link for uploading, opens in new tab -->
         <a href="{{ link_upload }}" class="qr-link" target="_blank">{{ link_upload }}</a>
 
+        <!-- Instruction to open another page and enter the code -->
         <p class="qr-text">Please open this page and enter the code:</p>
+        <!-- Link for downloading, opens in new tab -->
         <a href="{{ link_download }}" class="qr-link" target="_blank">{{ link_download }}</a>
       </div>
+    </div>
   </div>
 
 </body>

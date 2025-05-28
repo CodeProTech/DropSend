@@ -2,16 +2,24 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
+  <!-- Mobile view settings and disable zoom -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>DropSend – Datei-Upload</title>
+
+  <title>DropSend – File Upload</title>
+  <!-- Link to CSS file -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
+  <!-- Main page title -->
   <h1>DropSend - Download your files and images</h1>
 
+  <!-- Container for code input and button -->
   <div class="code-input-container">
+    <!-- Label for input field -->
     <label for="codeInput">Please input the 6-digit code:</label><br /><br />
+
+    <!-- Input field for the 6-digit code -->
     <input
       type="text"
       id="codeInput"
@@ -21,14 +29,20 @@
       inputmode="numeric"
       pattern="[0-9]*"
     />
+
+    <!-- Button to check the code, disabled by default -->
     <button id="checkCodeBtn" disabled>Check code</button>
+
+    <!-- Area to show error messages -->
     <div class="error-message" id="errorMessage"></div>
+
+    <!-- Area where download links will be shown dynamically -->
+    <div class="qr-link" id="downloadLink" style="display: none;">
+      <!-- Dynamic list will be inserted here -->
+    </div>
   </div>
 
-  <div class="download-link" id="downloadLink" style="display: none;">
-    <!-- Dynamische Liste wird hier eingefügt -->
-  </div>
-
+  <!-- Link to JavaScript file -->
   <script src="{{ url_for('static', filename='download.js') }}"></script>
 
 </body>

@@ -2,44 +2,63 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
+  <!-- Responsive for mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>DropSend – Datei-Upload</title>
+  <!-- Link to external stylesheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <!-- Main heading of the page -->
   <h1>DropSend – Drag & Drop or Browse</h1>
 
+  <!-- Container for upload area and file list -->
   <div class="upload-container">
+    <!-- Drop area where users can drag & drop files -->
     <div class="drop-area" id="drop-area">
       <span>Drag and drop files here or click to upload</span><br />
+      <!-- Button to open file browser -->
       <button class="browse-btn" onclick="document.getElementById('file-input').click();">Browse</button>
     </div>
 
+    <!-- Hidden file input, triggered by browse button -->
     <input type="file" id="file-input" multiple style="display: none;">
+    <!-- List to show selected files -->
     <ul class="file-list" id="file-list"></ul>
 
+    <!-- Container for upload progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar" id="progress-bar"></div>
     </div>
   </div>
 
+  <!-- QR code section with instructions -->
   <div class="qr-code-container-styled">
     <div class="qr-box">
+      <!-- QR code image -->
       <img src="../static/qr-code/download/qrcode.png" alt="Failed to load QR code." class="qr-image" />
 
       <div class="qr-info">
+        <!-- Instruction to scan QR or enter link manually -->
         <p class="qr-text">1. Scan the QR code with your device, or manually enter the following link:</p>
 
+        <!-- Link to open on device -->
         <a href="{{ link }}" class="qr-link" target="_blank">{{ link }}</a>
 
+        <!-- Instruction to enter code -->
         <p class="qr-text">2. Next, please enter the following code:</p>
 
+        <!-- Code displayed here -->
         <div class="code-display">{{ code }}</div>
       </div>
     </div>
   </div>
+
+  <!-- Link to transfer files from another device -->
   <a href="{{ link_another_device }}" class="qr-link">Transfer files and photos from another device.</a>
 
+  <!-- Include JavaScript for upload functionality -->
   <script src="{{ url_for('static', filename='upload.js') }}"></script>
 </body>
 </html>
