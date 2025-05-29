@@ -21,6 +21,13 @@ With DropSend, you can transfer files, texts, or images between any devices conn
 
 ---
 
+## 📸 Demo Screenshot
+
+<img src="https://github.com/user-attachments/assets/a4a52509-9091-4b00-aa22-7999c3a52bf4" alt="DropSend Demo Screenshot" width="600" />
+
+---
+
+
 ## 🖥️ Compatibility
 
 Works on **all devices** with a web browser:
