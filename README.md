@@ -49,8 +49,11 @@ All devices must be on the **same local network** (e.g. via Wi-Fi).
 
 ### 1. Requirements
 
-* Python 3.8+
-* Pip packages: `flask`, `qrcode`
+- **Git** (to clone the repository)
+- **Python** 3.8 or higher  
+- **Pip packages**:
+  - `flask`
+  - `qrcode`
 
 ### 2. Install
 
