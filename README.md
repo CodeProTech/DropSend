@@ -27,7 +27,7 @@ With DropSend, you can transfer files, texts, or images between any devices conn
 
 ---
 
-##🎥 Demo Video
+## 🎥 Demo Video
 <p>Watch DropSend in action:</p>
 <a href="https://www.youtube.com/watch?v=E_6drOP1is8" target="_blank">
   <img src="https://img.youtube.com/vi/E_6drOP1is8/0.jpg" alt="DropSend Demo Video" width="320" height="180" />
