@@ -95,6 +95,11 @@ def initialize_qr_codes():
     qr = qrcode.make(f"{base_url}{link_upload}")
     qr.save(path_to_qr_upload)
 
+@app.route('/')
+def landing():
+    base_url = get_base_url()
+    return render_template("landing.html", link_another_device=(base_url + link_another_device), link_upload=(base_url + link_upload))
+
 # Main upload page route
 @app.route(f'/{ungurl}')
 def index():

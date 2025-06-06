@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Responsive for mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>DropSend – Datei-Upload</title>
+  <!-- Link to external stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- Main heading of the page -->
+  <h1>DropSend</h1>
+
+  <!-- QR code section with instructions -->
+  <div class="qr-code-container-styled">
+    <p>With DropSend, you can seamlessly transfer files, text, or images between any devices connected to the same Wi-Fi, LAN, or even over the Internet
+      all without using the cloud. Just open the link in your browser and start sharing instantly.</p>
+
+    <!-- Link to open on device -->
+    <a href="{{ link_upload }}" class="qr-link" target="_blank">Click here to share files!</a>
+    <a href="{{ link_another_device }}" class="qr-link">Transfer files and photos from another device.</a>
+
+
+  </div>
+  <!-- Include JavaScript for upload functionality -->
+  <script src="{{ url_for('static', filename='upload.js') }}"></script>
+</body>
+</html>
