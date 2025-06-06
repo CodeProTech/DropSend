@@ -1,3 +1,4 @@
+gunicorn>=20.1.0,<21.0.0
 absl-py==2.1.0
 altgraph==0.17.4
 astunparse==1.6.3
