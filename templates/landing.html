@@ -1,30 +1,206 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- Responsive for mobile devices -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DropSend – Easily Share Files</title>
+  <link rel="icon" href="https://img.icons8.com/fluency/48/upload.png" type="image/png" />
 
-  <title>DropSend – Datei-Upload</title>
-  <!-- Link to external stylesheet -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Reset basic styles and set global font */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Background animation and body layout */
+    body {
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+      background-size: 400% 400%;
+      animation: gradient 12s ease infinite;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    /* Keyframes for animated background */
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Main title style */
+    h1 {
+      font-size: 2.6rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px #00c3ff99;
+      text-align: center;
+    }
+
+    /* Upload container box */
+    .upload-container {
+      background-color: rgba(30, 30, 30, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 900px;
+      box-shadow: 0 0 20px rgba(0, 195, 255, 0.3);
+      text-align: center;
+    }
+
+    .upload-container p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
+    }
+
+    /* Drop/upload area style */
+    .upload-area {
+      border: 2px dashed #00c3ff88;
+      border-radius: 15px;
+      padding: 40px;
+      margin: 20px 0;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .upload-area:hover {
+      background-color: rgba(0, 195, 255, 0.1);
+    }
+
+    /* Button base style */
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 10px;
+      margin: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #00c3ff55;
+    }
+
+    /* Primary button style */
+    .btn-primary {
+      background-color: #00c3ff;
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background-color: #0099cc;
+      transform: scale(1.05);
+    }
+
+    /* Dark button style (e.g. GitHub) */
+    .btn-dark {
+      background-color: #24292e;
+      color: #fff;
+    }
+
+    .btn-dark:hover {
+      background-color: #1b1f23;
+      transform: scale(1.05);
+    }
+
+    /* Footer style */
+    footer {
+      margin-top: 30px;
+      color: #888;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /* Responsive layout for smaller screens */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .upload-area {
+        padding: 30px;
+      }
+
+      .btn {
+        width: 100%;
+        display: block;
+      }
+    }
+
+    /* Extra info section styling */
+    .info-section {
+      margin-top: 40px;
+      text-align: left;
+    }
+
+    .info-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #00c3ff;
+    }
+
+    .info-section p {
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Main heading of the page -->
-  <h1>DropSend</h1>
 
-  <!-- QR code section with instructions -->
-  <div class="qr-code-container-styled">
-    <p>With DropSend, you can seamlessly transfer files, text, or images between any devices connected to the same Wi-Fi, LAN, or even over the Internet
-      all without using the cloud. Just open the link in your browser and start sharing instantly.</p>
+  <!-- Main Title -->
+  <h1>🚀 DropSend – Your Smart File Uploader</h1>
 
-    <!-- Link to open on device -->
-    <a href="{{ link_upload }}" class="qr-link" target="_blank">Click here to share files!</a>
-    <a href="{{ link_another_device }}" class="qr-link">Transfer files and photos from another device.</a>
+  <!-- Upload Box Section -->
+  <div class="upload-container">
+    <p><strong>Drag your file here or click on “Share File”</strong> – in just seconds it's available on your target device. No registration, no ads!</p>
 
+    <!-- Buttons to navigate -->
+    <a href="{{ link_upload }}" class="btn btn-primary">📤 Share File</a>
+    <a href="{{ link_another_device }}" class="btn btn-primary">🔗 Upload from Another Device</a>
+    <a href="https://github.com/CodeProTech/dropsend" target="_blank" class="btn btn-dark">⭐ View GitHub Project</a>
 
+    <!-- Additional information section -->
+    <div class="info-section">
+      <h2>🔒 Secure & Private</h2>
+      <p>Upload and download links are secured with unique random codes, and all uploaded files are cleared automatically when the user loceks in.</p>
+
+      <h2>📱 Cross-Platform</h2>
+      <p>Works on smartphone, tablet and PC. No app needed – just open in the browser and go.</p>
+
+      <div class="info-section">
+        <h2>✉️ Contact & Feedback</h2>
+        <p>If you have any questions or want to share your feedback, feel free to reach out at <a href="mailto:stefanoskoufogazos@outlook.com" style="color:#00c3ff;">stefanoskoufogazos@outlook.com</a>. I’d love to hear from you!</p>
+      </div>
+
+      <div class="info-section">
+        <h2>🔐 Privacy Policy</h2>
+        <p>We respect your privacy. Uploaded files are stored only temporarily and securely during transfer. No personal data is collected, and files are deleted automatically after use or when the server restarts.</p>
+      </div>
+
+      <h2>👨‍💻 Developed by</h2>
+      <p>This project was created by <strong>Stefanos, </strong> – a student and developer focused on smart tools and creative coding. Follow me on <a href="https://github.com/CodeProTech" style="color:#00c3ff;">GitHub</a> to explore more of my projects!</p>
+    </div>
   </div>
-  <!-- Include JavaScript for upload functionality -->
-  <script src="{{ url_for('static', filename='upload.js') }}"></script>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 DropSend – Made with ❤️ by CodeProTech
+  </footer>
+
+  <!-- JavaScript to handle upload area click -->
+  <script>
+    function uploadClicked() {
+      // Redirect to upload link when upload area is clicked
+      window.location.href = "{{ link_upload }}";
+    }
+  </script>
+
 </body>
 </html>
