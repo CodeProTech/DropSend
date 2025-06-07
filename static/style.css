@@ -1,17 +1,21 @@
 * {
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+/* Background animation and body layout */
 body {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #ffffff;
+  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+  background-size: 400% 400%;
+  animation: gradient 12s ease infinite;
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
+  padding: 40px 20px;
   min-height: 100vh;
 }
 
@@ -167,6 +171,9 @@ h1 {
   width: 100%;
   margin-top: 40px;
 }
+.error-message {
+  color: #ff3939;
+}
 
 .qr-box {
   background: #1f1f1f;
@@ -285,4 +292,91 @@ button:hover:not(:disabled) {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+
+/* Keyframes for animated background */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
+/* Button base style */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 10px;
+  margin: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+  box-shadow: 0 0 10px #00c3ff55;
+}
+
+/* Primary button style */
+.btn-primary {
+  background-color: #00c3ff;
+  color: #000;
+}
+
+.btn-primary:hover {
+  background-color: #0099cc;
+  transform: scale(1.05);
+}
+
+/* Dark button style (e.g. GitHub) */
+.btn-dark {
+  background-color: #24292e;
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background-color: #1b1f23;
+  transform: scale(1.05);
+}
+
+/* Footer style */
+footer {
+  margin-top: 30px;
+  color: #888;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .upload-area {
+    padding: 30px;
+  }
+
+  .btn {
+    width: 100%;
+    display: block;
+  }
+}
+
+/* Extra info section styling */
+.info-section {
+  margin-top: 40px;
+  text-align: left;
+}
+
+.info-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #00c3ff;
+}
+
+.info-section p {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 15px;
 }

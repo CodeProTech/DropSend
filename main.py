@@ -63,6 +63,7 @@ code =  f"{random.randint(0, 999999):06d}"
 link_download = f"http://{ip}:5000/download/{ungurl_upload}"
 link_upload = f"http://{ip}:5000/{ungurl}"
 link_another_device = f"http://{ip}:5000/{ungurl_upload}/from_another_device"
+link_landing = f"http://{ip}:5000"
 
 # Paths to save generated QR code images for download and upload links.
 path_to_qr_download = "static/qr-code/download/qrcode.png"
@@ -102,6 +103,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Print the upload link for easy access when running the server.
 print(link_upload)
+
+@app.route('/')
+def landing():
+    return render_template("landing.html", link_another_device=link_another_device, link_upload=link_upload)
 
 # Route for the main upload page with the secure URL.
 # It renders an upload form and shows the generated access code and download links.
@@ -208,6 +213,6 @@ def delete_file():
 
 # Main entry point: run Flask server on all interfaces at port 5000
 if __name__ == '__main__':
-    webbrowser.open(link_upload)
+    webbrowser.open(link_landing)
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
