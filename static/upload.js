@@ -35,7 +35,7 @@ function handleFiles(files) {
     li.classList.add('file-item');
     li.innerHTML = `
       ${file.name}
-      <button onclick="removeFile(this, '${file.name}')">Löschen</button>
+      <button onclick="removeFile(this, '${file.name}')">Delete</button>
     `; // show filename and delete button
     fileList.appendChild(li); // add to list
 
