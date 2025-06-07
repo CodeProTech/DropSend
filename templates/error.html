@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error {{ error_code }} – Something Went Wrong</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='error_style.css') }}">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">
+            Error {{ error_code }}
+        </div>
+
+        <div class="error-message">
+            {{ error_message }}
+        </div>
+
+        <div class="troubleshoot-section">
+            <div class="troubleshoot-header" id="troubleshootHeader">
+                <h3>
+                    <i class="fas fa-tools"></i>
+                    Possible Causes & Solutions
+                </h3>
+                <i class="fas fa-chevron-down rotate-icon" id="chevronIcon"></i>
+            </div>
+
+            <div class="troubleshoot-content" id="troubleshootContent">
+                <div class="cause-list">
+                    <div class="cause-item">
+                        <h4>📂 No File Uploaded</h4>
+                        <p>Please ensure that at least one file has been selected and uploaded correctly.</p>
+                    </div>
+                    <div class="cause-item">
+                        <h4>🌐 Network Issues</h4>
+                        <p>Check your internet connection and ensure no firewall or proxy is blocking the request.</p>
+                    </div>
+                    <div class="cause-item">
+                        <h4>🔗 Invalid URL</h4>
+                        <p>Make sure the link you entered is correct and complete.</p>
+                    </div>
+                    <div class="cause-item">
+                        <h4>⏳ Session Expired</h4>
+                        <p>Your session has timed out. Please refresh the page or restart the process.</p>
+                    </div>
+                    <div class="cause-item">
+                        <h4>🛠️ Server Maintenance</h4>
+                        <p>The system may be undergoing maintenance. Please try again after a few minutes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-line"></div>
+
+        <a href="/" class="return-btn">
+            ⬅️ Return to Homepage
+        </a>
+
+        <div class="system-info">
+            <i class="fas fa-microchip"></i> System Status: Recovery Mode Active
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='error.js') }}"></script>
+</body>
+</html>

@@ -17,19 +17,19 @@
   <div class="qr-code-container-styled">
     <div class="qr-box">
       <!-- QR code image to scan -->
-      <img src="../static/qr-code/upload/qrcode.png" alt="Failed to load QR code." class="qr-image" />
+      <img src="../static/qr-code/upload/{{ungurl}}.png" alt="Failed to load QR code." class="qr-image" />
 
       <!-- Information and links related to the QR code -->
       <div class="qr-info">
         <!-- Instruction to scan QR or enter link manually -->
         <p class="qr-text">1. Scan the QR code using your device,<br>or manually enter the following link:</p>
         <!-- Link for uploading, opens in new tab -->
-        <a href="{{ link_upload }}" class="qr-link" target="_blank">{{ link_upload }}</a>
+        <a href="{{ link_upload }}" class="qr-link" target="_blank">https://dropsend.onrender.com{{ link_upload }}</a>
 
         <!-- Instruction to open another page and enter the code -->
         <p class="qr-text">Please open this page and enter the code:</p>
         <!-- Link for downloading, opens in new tab -->
-        <a href="{{ link_download }}" class="qr-link" target="_blank">{{ link_download }}</a>
+        <a href="{{ link_download }}" class="qr-link" target="_blank">https://dropsend.onrender.com{{ link_download }}</a>
       </div>
     </div>
   </div>

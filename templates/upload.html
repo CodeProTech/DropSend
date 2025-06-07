@@ -37,14 +37,14 @@
   <div class="qr-code-container-styled">
     <div class="qr-box">
       <!-- QR code image -->
-      <img src="../static/qr-code/download/qrcode.png" alt="Failed to load QR code." class="qr-image" />
+      <img src="../static/qr-code/download/{{ungurl_download}}.png" alt="Failed to load QR code." class="qr-image" />
 
       <div class="qr-info">
         <!-- Instruction to scan QR or enter link manually -->
         <p class="qr-text">1. Scan the QR code with your device, or manually enter the following link:</p>
 
         <!-- Link to open on device -->
-        <a href="{{ link }}" class="qr-link" target="_blank">{{ link }}</a>
+        <a href="{{ link }}" class="qr-link" target="_blank">https://dropsend.onrender.com{{ link }}</a>
 
         <!-- Instruction to enter code -->
         <p class="qr-text">2. Next, please enter the following code:</p>
