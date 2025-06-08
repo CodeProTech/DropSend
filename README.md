@@ -21,19 +21,31 @@ With DropSend, you can transfer files, texts, or images between any devices conn
 
 ---
 
-## 📸 Demo Screenshot
+## 🌐 Local & Online Version Available
 
-<img src="https://github.com/user-attachments/assets/a4a52509-9091-4b00-aa22-7999c3a52bf4" alt="DropSend Demo Screenshot" width="600" />
+DropSend is now available not only for local use (via Wi-Fi/LAN), but also as an online version for broader accessibility!
+
+🔗 Try the Online Demo here:
+👉 [https://dropsend.onrender.com](https://dropsend.onrender.com/)
+
+> ⚠️ **Note:** This version does not use your local network – it is intended for testing or online file sharing.
 
 ---
 
-## 🎥 Demo Video
-<p>Watch DropSend in action:</p>
-<a href="https://www.youtube.com/watch?v=E_6drOP1is8" target="_blank">
-  <img src="https://img.youtube.com/vi/E_6drOP1is8/0.jpg" alt="DropSend Demo Video" width="320" height="180" />
-</a>
-<p>➡️ <a href="https://www.youtube.com/watch?v=E_6drOP1is8" target="_blank">Watch it on YouTube</a></p>
+## 📸 Demo Screenshot
 
+<img src="https://github.com/user-attachments/assets/49a5b8cf-81d1-477c-b731-597bd68f85b3" alt="DropSend Demo Screenshot" width="600" />
+
+---
+## 🎥 DropSend – New Demo (2025)
+
+🚀 **Check out the latest version! Watch the updated demo with all improvements:**
+
+[![DropSend New Version](https://img.youtube.com/vi/nEDPa_jXrcA/0.jpg)](https://www.youtube.com/watch?v=nEDPa_jXrcA)
+
+👉 [Watch on YouTube](https://www.youtube.com/watch?v=nEDPa_jXrcA)
+
+> ⚠️ **Note:** The <a href="https://www.youtube.com/watch?v=E_6drOP1is8" target="_blank">old demo </a> is still available.
 ---
 
 ## 🖥️ Compatibility
@@ -128,6 +140,12 @@ python main.py
 * Expiration time for links
 * Enhanced security
 * Direct file sending between devices in the network
+
+---
+
+## 🙌 Support the Project
+
+> ⭐️ **If you like DropSend, feel free to leave a star on GitHub! It really helps the project grow. Thanks a lot!**
 
 ---
 
