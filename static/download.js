@@ -32,13 +32,20 @@ button.addEventListener("click", () => {
         container.style.justifyContent = "center";
 
         data.files.forEach(file => {
-          const a = document.createElement("a");
-          a.href = `/download/${data.folder}/${file}`;
-          a.textContent = file;
-          a.setAttribute("download", file);
-          a.classList.add("btn", "btn-primary");
+          const downloadButton = document.createElement("button");
+          downloadButton.textContent = file;
+          downloadButton.classList.add("btn", "btn-primary");
+          downloadButton.onclick = () => {
+            // Erstelle einen versteckten Link und klicke ihn programmatisch
+            const link = document.createElement('a');
+            link.href = `/download/${data.folder}/${file}`;
+            link.download = file; // Setzt den Download-Attributnamen
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          };
 
-          container.appendChild(a);
+          container.appendChild(downloadButton);
         });
 
         downloadLink.innerHTML = "";

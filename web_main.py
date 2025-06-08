@@ -249,28 +249,42 @@ def from_another_device(ungurl_upload):
 @app.route('/check_code', methods=['POST'])
 def check_code():
     """API endpoint to verify access code"""
-    data = request.get_json()
-    entered_code = data.get('code')
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'success': False, 'error': 'No data provided'}), 400
 
-    for session_data in active_sessions.values():
-        if str(entered_code) == str(session_data['code']).zfill(6):
-            if datetime.utcnow() - session_data['created_at'] <= timedelta(minutes=15):
-                folder_path = f"uploads/{session_data['ungurl_upload']}"
+        entered_code = data.get('code')
+        if not entered_code:
+            return jsonify({'success': False, 'error': 'No code provided'}), 400
 
-                try:
-                    files = os.listdir(folder_path)
-                except Exception:
-                    files = []
+        for session_data in active_sessions.values():
+            if str(entered_code) == str(session_data['code']).zfill(6):
+                created_at = datetime.fromisoformat(session_data['created_at'])
+                if datetime.now() - created_at <= timedelta(minutes=15):
+                    folder_path = f"uploads/{session_data['ungurl_upload']}"
 
-                return jsonify({
-                    'success': True,
-                    'download_link': session_data['link_download'],
-                    'files': files,
-                    'folder': session_data['ungurl_upload']
-                })
+                    try:
+                        files = os.listdir(folder_path) if os.path.exists(folder_path) else []
+                    except Exception:
+                        files = []
 
-    return jsonify({'success': False, 'error': 'Incorrect code! Please try again.'})
+                    return jsonify({
+                        'success': True,
+                        'download_link': session_data['link_download'],
+                        'files': files,
+                        'folder': session_data['ungurl_upload']
+                    })
 
+        return jsonify({
+            'success': False,
+            'error': 'Incorrect code! Please try again.'
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f'Server error: {str(e)}'
+        }), 500
 
 @app.route("/download/<ungurl_upload>")
 def load(ungurl_upload):
@@ -292,21 +306,29 @@ def load(ungurl_upload):
 @app.route('/download/<ungurl_upload>/<filename>')
 def download(ungurl_upload, filename):
     """Route to handle file downloads"""
-    if not is_session_valid(ungurl_upload):
-        abort(410)  # Gone - Session expired
+    try:
+        if not is_session_valid(ungurl_upload):
+            return jsonify({'error': 'Session expired'}), 410
 
-    safe_folder = secure_filename(ungurl_upload)
-    safe_filename = sanitize_filename(filename)
-    folder_path = os.path.join(os.getcwd(), 'uploads', safe_folder)
+        safe_folder = secure_filename(ungurl_upload)
+        safe_filename = sanitize_filename(filename)
+        folder_path = os.path.join(os.getcwd(), 'uploads', safe_folder)
 
-    if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
-        abort(404)
+        if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
+            return jsonify({'error': 'File not found'}), 404
 
-    file_path = os.path.join(folder_path, safe_filename)
-    if not os.path.exists(file_path):
-        abort(404)
+        file_path = os.path.join(folder_path, safe_filename)
+        if not os.path.exists(file_path):
+            return jsonify({'error': 'File not found'}), 404
 
-    return send_from_directory(folder_path, safe_filename, as_attachment=True)
+        return send_from_directory(
+            folder_path,
+            safe_filename,
+            as_attachment=True,
+            download_name=safe_filename  # Ensure proper filename encoding
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/upload', methods=['POST'])
