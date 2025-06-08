@@ -71,14 +71,13 @@ def create_user_session():
         'ungurl': ungurl,
         'ungurl_upload': ungurl_upload,
         'code': code,
-        'created_at': created_at,
+        'created_at': created_at.isoformat(),
         'link_download': f"/download/{ungurl_upload}",
         'link_upload': f"/{ungurl}",
         'link_another_device': f"/{ungurl_upload}/from_another_device"
     }
 
     return session_data
-
 
 def generate_session_qr_codes(user_data, base_url):
     """Generate and save QR codes for a specific session"""
@@ -120,7 +119,8 @@ def cleanup_expired_sessions():
     current_time = datetime.now()
     expired = []
     for session_id, data in active_sessions.items():
-        if current_time - data['created_at'] > timedelta(minutes=15):
+        created_at = datetime.fromisoformat(data['created_at'])
+        if current_time - created_at > timedelta(minutes=15):
             expired.append(session_id)
             # Clean up uploaded files
             folder_path = f'uploads/{data["ungurl_upload"]}'
@@ -142,13 +142,13 @@ def cleanup_expired_sessions():
 
 def is_session_valid(ungurl_upload):
     """Check if a session is valid and not expired"""
-    current_time = datetime.now()  # Verwendung von UTC
+    current_time = datetime.now()
     for data in active_sessions.values():
         if data['ungurl_upload'] == ungurl_upload:
-            if current_time - data['created_at'] <= timedelta(minutes=15):
+            created_at = datetime.fromisoformat(data['created_at'])
+            if current_time - created_at <= timedelta(minutes=15):
                 return True
     return False
-
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -169,11 +169,26 @@ clear_folder_contents("static/qr-code/upload")
 def check_session():
     """Check and clean up sessions before each request"""
     cleanup_expired_sessions()
-    if 'user_data' not in session:
+
+    # Check if session exists and is valid
+    if 'user_data' in session:
+        user_data = session['user_data']
+        # Convert stored ISO format string to datetime
+        created_at = datetime.fromisoformat(user_data['created_at'])
+        # Check if session has expired (more than 15 minutes old)
+        if datetime.now() - created_at > timedelta(minutes=15):
+            # Remove old session
+            if user_data['session_id'] in active_sessions:
+                del active_sessions[user_data['session_id']]
+            # Create new session
+            user_data = create_user_session()
+            session['user_data'] = user_data
+            active_sessions[user_data['session_id']] = user_data
+    else:
+        # Create new session if none exists
         user_data = create_user_session()
         session['user_data'] = user_data
         active_sessions[user_data['session_id']] = user_data
-
 
 @app.route('/')
 def landing():
@@ -199,20 +214,21 @@ def index(ungurl):
     """Upload page route"""
     for session_data in active_sessions.values():
         if session_data['ungurl'] == ungurl:
-            if datetime.now() - session_data['created_at'] <= timedelta(minutes=15):
+            # Convert the ISO format string back to datetime
+            created_at = datetime.fromisoformat(session_data['created_at'])
+            if datetime.now() - created_at <= timedelta(minutes=15):
                 base_url = get_base_url()
 
                 qr_paths = generate_session_qr_codes(session_data, base_url)
 
                 return render_template("upload.html",
-                                       ungurl_download=session_data['ungurl_upload'],
-                                       code=session_data['code'],
-                                       link=session_data['link_download'],
-                                       link_another_device=session_data['link_another_device'],
-                                       qr_download=qr_paths['qr_download'])
+                                   ungurl_download=session_data['ungurl_upload'],
+                                   code=session_data['code'],
+                                   link=session_data['link_download'],
+                                   link_another_device=session_data['link_another_device'],
+                                   qr_download=qr_paths['qr_download'])
 
     abort(410)  # Gone - Session expired
-
 
 @app.route("/<ungurl_upload>/from_another_device")
 def from_another_device(ungurl_upload):
